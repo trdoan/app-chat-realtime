@@ -1,0 +1,26 @@
+{
+  "name": "app-chat-realtime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app/src/server.js",
+    "dev": "nodemon app/src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trdoan/app-chat-realtime.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trdoan/app-chat-realtime/issues"
+  },
+  "homepage": "https://github.com/trdoan/app-chat-realtime#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "socket.io": "^4.4.1"
+  }
+}
