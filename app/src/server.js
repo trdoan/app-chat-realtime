@@ -4,9 +4,11 @@ const app = express();
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const { getListUsersByRoom, addUser, removeUser } = require("./model/user");
+const { rootRouter } = require("../../router/rootRouter");
 const pathPublicDirectory = path.join(__dirname, "../public");
 app.use(express.static(pathPublicDirectory));
-
+app.use(express.json());
+app.use("/", rootRouter);
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: "*",
@@ -36,7 +38,7 @@ io.on("connection", (socket) => {
     // xin chao user moi khi vao room
     socket.emit(
       "helloFirstTime",
-      `Chào mừng ${username} đã vào phòng chat ${room}`
+      `Chào mừng ${username} đã vào phòng chat ${room}`,
     );
 
     // gui ttin nhan
