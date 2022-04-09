@@ -34,7 +34,10 @@ io.on("connection", (socket) => {
     io.to(room).emit("get-user-list-by-room", arrUser);
 
     // xin chao user moi khi vao room
-    socket.emit("helloFirstTime", `Chào mừng ${username} đã vào phòng chat ${room}`);
+    socket.emit(
+      "helloFirstTime",
+      `Chào mừng ${username} đã vào phòng chat ${room}`
+    );
 
     // gui ttin nhan
     socket.on("send-message", (data) => {
@@ -43,7 +46,9 @@ io.on("connection", (socket) => {
     });
 
     // thong bao co 1 user vao phong cho cac user khac ttrong room
-    socket.broadcast.to(room).emit("notify-new-user-connect", `${username}  vừa vào phòng chat`);
+    socket.broadcast
+      .to(room)
+      .emit("notify-new-user-connect", `${username}  vừa vào phòng chat`);
     // ngat ket noi
     socket.on("disconnect", () => {
       console.log(`${socket.id} disconnected`);
@@ -57,6 +62,6 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(5000, () => {
-  console.log(`App is running on port 5000`);
+httpServer.listen(5001, () => {
+  console.log(`App is running on port 5001`);
 });
