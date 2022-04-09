@@ -6,18 +6,11 @@
     "host": "remotemysql.com",
     "dialect": "mysql"
   },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "SP9TV1670g",
+    "password": "bYYr6kVWnN",
+    "database": "SP9TV1670g",
+    "host": "remotemysql.com",
     "dialect": "mysql"
   }
 }
