@@ -3,6 +3,6 @@ const { APIUser } = require("../../controller/userController");
 
 const userRouter = Router();
 
-userRouter.post("/signin", APIUser.signIn);
-userRouter.post("/signup", APIUser.signUp);
+userRouter.post("/sign-in", APIUser.signIn);
+userRouter.post("/sign-up", APIUser.signUp);
 module.exports = { userRouter };

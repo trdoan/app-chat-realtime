@@ -3,5 +3,5 @@ const { userRouter } = require("./user/userRouter");
 
 const rootRouter = Router();
 
-rootRouter.use("/user", userRouter);
+rootRouter.use("/auth", userRouter);
 module.exports = { rootRouter };
