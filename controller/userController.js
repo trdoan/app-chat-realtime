@@ -12,14 +12,18 @@ const APIUser = {
     const existEmail = await User.findOne({ where: { email } });
     console.log(existEmail);
     if (existEmail !== null) {
-      res.status(400).send({ message: "Email này đã tồn tại" });
+      res
+        .status(400)
+        .send({ message: "Email này đã tồn tại", status: "EXIST_EMAIL" });
     } else {
       const newUser = await User.create({
         email,
         password: hashPasswd,
         userName,
       });
-      res.status(200).send({ message: "Đăng ký thành công" });
+      res
+        .status(200)
+        .send({ message: "Đăng ký thành công", status: "SUCCESS" });
     }
   },
   signIn: async (req, res) => {
@@ -45,12 +49,12 @@ const APIUser = {
             status: "OK",
           });
         } else {
-          res.status(400).send({ message: "Sai mật khẩu", status: "PW ERROR" });
+          res.status(400).send({ message: "Sai mật khẩu", status: "PW_ERROR" });
         }
       } else {
         res.status(404).send({
           message: "Không tìm thấy tài khoản này",
-          status: "TK ERROR",
+          status: "EXIST_ACC",
         });
       }
     } catch (error) {
