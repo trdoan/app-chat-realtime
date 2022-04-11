@@ -32,7 +32,7 @@ const APIUser = {
           //tao token
           const payload = {
             id: accountUser.id,
-            name: accountUser.userName,
+            userName: accountUser.userName,
             email: accountUser.email,
           };
           const secretKey = "webmeet";
