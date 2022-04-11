@@ -5,7 +5,10 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const { getListUsersByRoom, addUser, removeUser } = require("./model/user");
 const { rootRouter } = require("../../router/rootRouter");
+const cors = require("cors");
 const pathPublicDirectory = path.join(__dirname, "../public");
+const port = process.env.PORT || 5001;
+app.use(cors());
 app.use(express.static(pathPublicDirectory));
 app.use(express.json());
 app.use("/", rootRouter);
@@ -38,7 +41,7 @@ io.on("connection", (socket) => {
     // xin chao user moi khi vao room
     socket.emit(
       "helloFirstTime",
-      `Chào mừng ${username} đã vào phòng chat ${room}`,
+      `Chào mừng ${username} đã vào phòng chat ${room}`
     );
 
     // gui ttin nhan
@@ -64,6 +67,6 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(5001, () => {
-  console.log(`App is running on port 5001`);
+httpServer.listen(port, () => {
+  console.log(`App is running on port ${port}`);
 });
