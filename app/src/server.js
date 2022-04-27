@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
       username: "Hệ thống",
       message: `Chào mừng ${username} đã vào phòng chat ${room}`,
     });
-
+    socket.emit('getID', socket.id);
     // gui ttin nhan
     socket.on("send-message", (data) => {
       console.log({ id: socket.id, data: data });
