@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 const APIUser = {
   signUp: async (req, res) => {
-    const { email, password, userName } = req.body;
+    const { email, password, displayName } = req.body;
     //tao chuoi ngau nhien
     const salt = await bcryptjs.genSaltSync(10);
     //ma hoa mat khau
@@ -19,7 +19,7 @@ const APIUser = {
       const newUser = await User.create({
         email,
         password: hashPasswd,
-        userName,
+        displayName,
       });
       res
         .status(200)
@@ -36,7 +36,7 @@ const APIUser = {
           //tao token
           const payload = {
             id: accountUser.id,
-            userName: accountUser.userName,
+            displayName: accountUser.displayName,
             email: accountUser.email,
           };
           const secretKey = "webmeet";
@@ -61,13 +61,23 @@ const APIUser = {
       console.log(error);
     }
   },
-  getInfo: async (req, res) => {
+  profileUser: async (req, res) => {
     try {
       const { id } = req.user;
-      let infoUser = await User.findByPk(id);
-      res.send(infoUser);
+      let profile = await User.findByPk(id);
+      res.status(200).send(profile);
     } catch (error) {
-      console.log(error);
+      res.status(400).send(error);
+    }
+  },
+  profileUserUpdate: async (req, res) => {
+    try {
+      const { id } = req.user;
+      const { displayName } = req.body;
+      await User.update({ displayName }, { where: { id } });
+      res.status(200).send({ message: "Update complete" });
+    } catch (err) {
+      res.status(400).send(err);
     }
   },
 };
