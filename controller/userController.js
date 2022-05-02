@@ -73,9 +73,23 @@ const APIUser = {
   profileUserUpdate: async (req, res) => {
     try {
       const { id } = req.user;
-      const { displayName } = req.body;
-      await User.update({ displayName }, { where: { id } });
-      res.status(200).send({ message: "Update complete" });
+      const { displayName, currentPassword, newPassword } = req.body;
+      let infoUser = await User.findByPk(id);
+      let isExistPw = await bcryptjs.compareSync(
+        currentPassword,
+        infoUser.password,
+      );
+      if (isExistPw) {
+        const salt = await bcryptjs.genSaltSync(10);
+        const hashPasswd = await bcryptjs.hashSync(newPassword, salt);
+        await User.update(
+          { displayName, password: hashPasswd },
+          { where: { id } },
+        );
+        res.status(200).send({ message: "Update complete" });
+      } else {
+        res.status(401).send({ message: "Mật khẩu cũ không đúng" });
+      }
     } catch (err) {
       res.status(400).send(err);
     }
