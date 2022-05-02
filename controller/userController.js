@@ -86,9 +86,11 @@ const APIUser = {
           { displayName, password: hashPasswd },
           { where: { id } },
         );
-        res.status(200).send({ message: "Update complete" });
+        res.status(200).send({ message: "Update complete", status: "SUCCESS" });
       } else {
-        res.status(401).send({ message: "Mật khẩu cũ không đúng" });
+        res
+          .status(401)
+          .send({ message: "Mật khẩu cũ không đúng", status: "PW_ERROR" });
       }
     } catch (err) {
       res.status(400).send(err);
