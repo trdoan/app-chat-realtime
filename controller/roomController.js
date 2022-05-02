@@ -10,7 +10,8 @@ const apiRoom = {
     res.send(roomList);
   },
   create: async (req, res) => {
-    const { name, token, password, type } = req.body;
+    const { name, password, type } = req.body;
+    const { token } = req.headers;
     const decode = jsonwebtoken.verify(token, "webmeet");
     const newRoom = await Room.create({
       name,
@@ -31,7 +32,7 @@ const apiRoom = {
           password,
           type,
         },
-        { where: { hostId: decode.id } },
+        { where: { hostId: decode.id } }
       );
       res.status(200).send({ message: "Update complete", status: "SUCCESS" });
     } catch (error) {
@@ -39,7 +40,7 @@ const apiRoom = {
     }
   },
   delete: async (req, res) => {
-    const { token } = req.body;
+    const { token } = req.headers;
     const { id } = req.params;
     try {
       const decode = jsonwebtoken.verify(token, "webmeet");
