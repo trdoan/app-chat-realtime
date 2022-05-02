@@ -21,11 +21,13 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.TEXT,
       hostId: DataTypes.INTEGER,
+      password: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     {
       sequelize,
       modelName: "Room",
-    }
+    },
   );
   return Room;
 };
