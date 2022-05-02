@@ -42,7 +42,10 @@ io.on("connection", async (socket) => {
     // gửi tb tới client khác cập nhật FE
     io.emit("send-rooms-to-client");
   });
-
+  socket.on("new-room-deleted", () => {
+    // gửi tb tới client khác cập nhật FE
+    io.emit("send-rooms-to-client");
+  });
   let roomID;
   // sự kiện user tham gia phòng
   socket.on("join-room", (data) => {
