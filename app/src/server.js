@@ -19,6 +19,9 @@ const io = new Server(httpServer, {
 // co 1 ket noi moi
 io.on("connection", (socket) => {
   socket.emit("helloID", socket.id);
+  socket.on("new-room-created", (data) => {
+    io.emit("send-rooms-to-client");
+  });
   console.log(socket.id);
   let roomID;
   socket.on("join-room", (data) => {
@@ -43,7 +46,7 @@ io.on("connection", (socket) => {
       username: "Hệ thống",
       message: `Chào mừng ${username} đã vào phòng chat ${room}`,
     });
-    socket.emit('getID', socket.id);
+    socket.emit("getID", socket.id);
     // gui ttin nhan
     socket.on("send-message", (data) => {
       console.log({ id: socket.id, data: data });
@@ -71,3 +74,5 @@ io.on("connection", (socket) => {
 httpServer.listen(port, () => {
   console.log(`App is running on port ${port}`);
 });
+
+module.exports = io;
