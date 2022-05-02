@@ -24,6 +24,7 @@ module.exports = {
       },
       type: {
         type: Sequelize.TEXT,
+        defaultValue: "PUBLIC",
       },
       createdAt: {
         allowNull: false,
