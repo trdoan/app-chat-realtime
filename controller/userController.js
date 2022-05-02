@@ -62,7 +62,8 @@ const APIUser = {
     }
   },
   checkToken: async (req, res) => {
-    const { token } = req.body;
+    const { token } = req.headers;
+    console.log({ token });
     try {
       const secretKey = "webmeet";
       const decode = jwt.verify(token, secretKey);
@@ -87,14 +88,14 @@ const APIUser = {
       let infoUser = await User.findByPk(id);
       let isExistPw = await bcryptjs.compareSync(
         currentPassword,
-        infoUser.password,
+        infoUser.password
       );
       if (isExistPw) {
         const salt = await bcryptjs.genSaltSync(10);
         const hashPasswd = await bcryptjs.hashSync(newPassword, salt);
         await User.update(
           { displayName, password: hashPasswd },
-          { where: { id } },
+          { where: { id } }
         );
         res.status(200).send({ message: "Update complete", status: "SUCCESS" });
       } else {
