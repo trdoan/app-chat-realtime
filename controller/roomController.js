@@ -9,6 +9,19 @@ const apiRoom = {
     });
     res.send(roomList);
   },
+  findDetail: async (req, res) => {
+    const { id } = req.params;
+    try {
+      let infoRoom = await Room.findByPk(id);
+      if (infoRoom) {
+        res.status(200).send(infoRoom);
+      } else {
+        res.status(401).send({ message: "Phòng không tồn tại" });
+      }
+    } catch (error) {
+      res.status(400).send({ message: error });
+    }
+  },
   create: async (req, res) => {
     const { name, password, type } = req.body;
     const { token } = req.headers;
@@ -32,7 +45,7 @@ const apiRoom = {
           password,
           type,
         },
-        { where: { hostId: decode.id } }
+        { where: { hostId: decode.id } },
       );
       res.status(200).send({ message: "Update complete", status: "SUCCESS" });
     } catch (error) {
