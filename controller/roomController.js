@@ -67,5 +67,19 @@ const apiRoom = {
       res.status(400).send({ message: error });
     }
   },
+  joinPrivateRoom: async (req, res) => {
+    try {
+      const { password } = req.body;
+      const { id } = req.params;
+      let roomDetail = await Room.findByPk(id);
+      if (roomDetail.password === password) {
+        res.status(200).send({ message: "Accept into room", status: true });
+      } else {
+        res.status(401).send({ message: "Password Error", status: false });
+      }
+    } catch (error) {
+      res.status(400).send({ message: error, status: false });
+    }
+  },
 };
 module.exports = apiRoom;
