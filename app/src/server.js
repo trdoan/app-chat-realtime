@@ -50,7 +50,7 @@ io.on("connection", async (socket) => {
   // sự kiện user tham gia phòng
   socket.on("join-room", (data) => {
     const { displayName, room, id } = data;
-    roomID = room;
+
     // xu ly vao phong
     socket.join(room);
     const newUser = {
@@ -68,7 +68,7 @@ io.on("connection", async (socket) => {
     // xin chao user moi khi vao room
     socket.emit("helloFirstTime", {
       displayName: "Hệ thống",
-      message: `Chào mừng ${displayName} đã vào phòng chat ${room}`,
+      message: `Chào mừng ${displayName} đã vào phòng chat `,
     });
     socket.emit("getID", socket.id);
     // gui ttin nhan

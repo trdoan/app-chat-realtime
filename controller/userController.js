@@ -67,7 +67,8 @@ const APIUser = {
     try {
       const secretKey = "webmeet";
       const decode = jwt.verify(token, secretKey);
-      res.status(200).send({ message: "Token hợp lệ", contentToken: decode });
+      const user = await User.findByPk(decode.id);
+      res.status(200).send({ message: "Token hợp lệ", contentToken: user });
     } catch (error) {
       res.status(400).send({ message: "tài khoản không hợp lệ", error });
     }
