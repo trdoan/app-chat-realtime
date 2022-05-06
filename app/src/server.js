@@ -76,12 +76,20 @@ io.on("connection", async (socket) => {
       console.log({ id: socket.id, data: data });
       io.to(room).emit("send-client-others", data);
     });
-
+    socket.on("one-user-leaving-room", () => {
+      removeUser(socket.id);
+      const arrUser = getListUsersByRoom(roomID);
+      io.to(roomID).emit("one-user-out", {
+        message: `${displayName} vừa rời khỏi phòng chat`,
+        data: arrUser,
+      });
+    });
     // thong bao co 1 user vao phong cho cac user khac ttrong room
     socket.broadcast.to(room).emit("notify-new-user-connect", {
       displayName: "Hệ thống",
       message: `${displayName}  vừa vào phòng chat`,
     });
+
     // ngat ket noi
     socket.on("disconnect", () => {
       console.log(`${socket.id} disconnected`);
