@@ -58,48 +58,51 @@ io.on("connection", async (socket) => {
       displayName,
       room,
     };
-    console.log(newUser);
-    addUser(newUser);
-    const arrUser = getListUsersByRoom(room);
+    if (displayName != "undefined") {
+      console.log(newUser);
+      addUser(newUser);
+      const arrUser = getListUsersByRoom(room);
 
-    // lay danh sach thanh vien dang o trong phong
-    io.to(room).emit("get-user-list-by-room", arrUser);
+      // lay danh sach thanh vien dang o trong phong
+      io.to(room).emit("get-user-list-by-room", arrUser);
 
-    // xin chao user moi khi vao room
-    socket.emit("helloFirstTime", {
-      displayName: "Hệ thống",
-      message: `Chào mừng ${displayName} đã vào phòng chat `,
-    });
-    socket.emit("getID", socket.id);
-    // gui ttin nhan
-    socket.on("send-message", (data) => {
-      console.log({ id: socket.id, data: data });
-      io.to(room).emit("send-client-others", data);
-    });
-    socket.on("one-user-leaving-room", () => {
-      removeUser(socket.id);
-      const arrUser = getListUsersByRoom(roomID);
-      io.to(roomID).emit("one-user-out", {
-        message: `${displayName} vừa rời khỏi phòng chat`,
-        data: arrUser,
+      // xin chao user moi khi vao room
+      // socket.emit("helloFirstTime", {
+      //   displayName: "Hệ thống",
+      //   message: `Chào mừng ${displayName} đã vào phòng chat `,
+      // });
+      socket.emit("getID", socket.id);
+      // gui ttin nhan
+      socket.on("send-message", (data) => {
+        console.log({ id: socket.id, data: data });
+        io.to(room).emit("send-client-others", data);
       });
-    });
-    // thong bao co 1 user vao phong cho cac user khac ttrong room
-    socket.broadcast.to(room).emit("notify-new-user-connect", {
-      displayName: "Hệ thống",
-      message: `${displayName}  vừa vào phòng chat`,
-    });
-
-    // ngat ket noi
-    socket.on("disconnect", () => {
-      console.log(`${socket.id} disconnected`);
-      removeUser(socket.id);
-      const arrUser = getListUsersByRoom(roomID);
-      io.to(roomID).emit("one-user-out", {
-        message: `${displayName} vừa rời khỏi phòng chat`,
-        data: arrUser,
+      socket.on("one-user-leaving-room", () => {
+        removeUser(socket.id);
+        const arrUser = getListUsersByRoom(room);
+        io.to(room).emit("one-user-out", {
+          message: `${displayName} vừa rời khỏi phòng chat`,
+          data: arrUser,
+        });
       });
-    });
+      // thong bao co 1 user vao phong cho cac user khac ttrong room
+      socket.broadcast.to(room).emit("notify-new-user-connect", {
+        displayName: "Hệ thống",
+        message: `${displayName}  vừa vào phòng chat`,
+      });
+
+      // ngat ket noi
+      socket.on("disconnect", () => {
+        console.log(`${socket.id} disconnected`);
+        removeUser(socket.id);
+        console.log(room, roomID);
+        const arrUser = getListUsersByRoom(room);
+        io.to(room).emit("one-user-out", {
+          message: `${displayName} vừa rời khỏi phòng chat`,
+          data: arrUser,
+        });
+      });
+    }
   });
 });
 
